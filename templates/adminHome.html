@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+  <div class="container mt-5">
+     <h1>Welcome admin</h1>
+    <h1>User List</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>John Doe</td>
+          <td>johndoe@example.com</td>
+          <td><span class="badge badge-success">Active</span></td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger">Block</button>
+              <button type="button" class="btn btn-success">Unblock</button>
+              <button type="button" class="btn btn-outline-danger">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <!-- <tr>
+          <td>Jane Smith</td>
+          <td>janesmith@example.com</td>
+          <td><span class="badge badge-danger">Blocked</span></td>
+          <td>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger">Block</button>
+              <button type="button" class="btn btn-success">Unblock</button>
+              <button type="button" class="btn btn-outline-danger">Delete</button>
+            </div>
+          </td>
+        </tr> -->
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
