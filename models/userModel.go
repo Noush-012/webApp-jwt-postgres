@@ -1,6 +1,9 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm"
+)
 
 type User struct {
 	gorm.Model
@@ -12,8 +15,8 @@ type User struct {
 	Status    bool
 }
 
-type JwtSessionList struct {
-	ID          uint    `gorm:"primarykey"`
-	TokenString string  `gorm:"not null"`
-	EndTime     float64 `gorm:"not null"`
+// CheckPassword checks if the given password matches the user's hashed password
+func (u *User) CheckPassword(password string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
+	return err == nil
 }

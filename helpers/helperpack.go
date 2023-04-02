@@ -85,9 +85,9 @@ func ValidateUserLogin(form struct {
 	var user models.User
 	initializers.DB.Find(&user, "email = ?", form.Email)
 
-	if user.ID == 0 { // if user not found
+	if user.ID == 0 || !user.CheckPassword(form.Password) { // if user not found
 		return map[string]string{
-			"Alert": "You are not a registered user you can signup",
+			"Alert": "Invalid email or password or Not a user please sign up!",
 			"Color": "text-danger",
 		}, false
 	}
@@ -130,21 +130,12 @@ func GetCookieVal(ctx *gin.Context, name string) (string, bool) {
 }
 
 func GetToken(ctx *gin.Context, name string) (*jwt.Token, bool) {
-	//Delete expired token from JWT session List
-	DeleteBlackListToken()
 
-	// get cookie
+	// get cookie from client
 	cookieval, ok := GetCookieVal(ctx, name)
 
 	if !ok { // problem to get cookie so return false
 		return nil, false
-	}
-	// check the user in JWT session list
-	var JwtListCheck models.JwtSessionList
-
-	initializers.DB.Find(&JwtListCheck, "token_string = ?", cookieval)
-	if JwtListCheck.ID != 0 {
-		return nil, false //this user is in session list
 	}
 
 	// Parse cookie to get JWT token

@@ -28,7 +28,7 @@ func ConnToDB() {
 // Schema Migrate to database
 func MigrateToDB() {
 
-	if DB.AutoMigrate(&models.Admin{}, &models.User{}, &models.JwtSessionList{}); err != nil {
+	if DB.AutoMigrate(&models.Admin{}, &models.User{}); err != nil {
 		fmt.Println("faild to sync database")
 		return
 	}

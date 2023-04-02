@@ -127,23 +127,6 @@ func LogoutUser(ctx *gin.Context) {
 		return
 	}
 
-	// // Get token and check if expired else store in database for next time validation
-	// if token, ok := helpers.GetToken(ctx, "user"); ok {
-
-	// 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-	// 		//check the time is over if its not then add it black list
-	// 		if float64(time.Now().Unix()) < claims["exp"].(float64) {
-
-	// 			//add the cookieVal to black list
-	// 			db.DB.Clauses(clause.OnConflict{DoNothing: true}).Create(&models.JwtBlackList{
-	// 				TokenString: cookieVal,
-	// 				EndTime:     claims["exp"].(float64),
-	// 			})
-	// 		}
-	// 	}
-	// }
-
-	//delete the cookie on client side using set its time as -1
 	ctx.SetCookie("user", "", -1, "", "", false, true)
 
 	//atlast redirect to login page

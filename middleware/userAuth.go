@@ -14,12 +14,11 @@ import (
 )
 
 func UserAuthentiaction(ctx *gin.Context) {
-	fmt.Println("user auth")
+	fmt.Println("Processing user authentication...")
 
 	token, ok := helpers.GetToken(ctx, "user")
 
 	if !ok {
-		fmt.Println("token not ok")
 		if ctx.Request.URL.Path == "/signup" {
 			ctx.Next()
 			return
