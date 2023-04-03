@@ -14,6 +14,8 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+// ================================== USER VALIDATION ================================== //
+
 // This function will perform signup validation using inbuilt validator package
 func ValidateSignup(form struct {
 	FirstName string `validate:"required"`
@@ -94,6 +96,41 @@ func ValidateUserLogin(form struct {
 	return user.ID, true
 
 }
+
+// ================================== ADMIN VALIDATION ================================== //
+
+func AdminValidation(form struct {
+	Email    string `validate:"required,email"` // Frontend validation
+	Password string `validate:"required"`
+}) (interface{}, bool) {
+
+	fmt.Println("Admin validation processing...")
+
+	fmt.Println(form.Email, form.Password)
+
+	validate := validator.New()
+
+	if err := validate.Struct(form); err != nil {
+		fmt.Println("have validations errors")
+		templateMessage := err
+		fmt.Println(templateMessage)
+		return "Credentials invalid", false
+
+	}
+	// Check user exists in database
+	var admin models.Admin
+	initializers.DB.Find(&admin, "email = ?", form.Email)
+
+	if admin.ID == 0 || !admin.CheckPassword(form.Password) { // if user not found
+		fmt.Println("invalid credentials")
+		return "Invalid admin credentials", false
+	}
+
+	return admin.ID, true
+
+}
+
+// ========================== JWT Token and cookie session  ========================== //
 
 // JWT token & cookie setup for session handling
 func JwtCookieSetup(c *gin.Context, name string, userId interface{}) bool {

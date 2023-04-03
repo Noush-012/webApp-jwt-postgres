@@ -53,7 +53,7 @@ func SignupSubmition(c *gin.Context) {
 
 }
 
-// ================================== SIGNUP SECTION ================================== //
+// ================================== LOGIN SECTION ================================== //
 
 // To render login
 func LoginPage(c *gin.Context) {
@@ -93,7 +93,7 @@ func UserLoginSubmission(c *gin.Context) {
 
 }
 
-// ================================== SIGNUP SECTION ================================== //
+// ================================== USER HOME SECTION ================================== //
 
 // To render home page
 func UserHome(c *gin.Context) {
@@ -117,18 +117,18 @@ func UserHome(c *gin.Context) {
 }
 
 // To logout user
-func LogoutUser(ctx *gin.Context) {
+func LogoutUser(c *gin.Context) {
 	fmt.Println("User Logged out")
 
-	_, ok := helpers.GetCookieVal(ctx, "user")
+	_, ok := helpers.GetCookieVal(c, "user")
 
 	if !ok {
-		ctx.Redirect(http.StatusSeeOther, "/")
+		c.Redirect(http.StatusSeeOther, "/")
 		return
 	}
 
-	ctx.SetCookie("user", "", -1, "", "", false, true)
+	c.SetCookie("user", "", -1, "", "", false, true)
 
 	//atlast redirect to login page
-	ctx.Redirect(http.StatusSeeOther, "/")
+	c.Redirect(http.StatusSeeOther, "/")
 }

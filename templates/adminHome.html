@@ -1,54 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Panel</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panal</title>
 </head>
-<body>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
 
-  <div class="container mt-5">
-     <h1>Welcome admin</h1>
-    <h1>User List</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>John Doe</td>
-          <td>johndoe@example.com</td>
-          <td><span class="badge badge-success">Active</span></td>
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger">Block</button>
-              <button type="button" class="btn btn-success">Unblock</button>
-              <button type="button" class="btn btn-outline-danger">Delete</button>
-            </div>
-          </td>
-        </tr>
-        <!-- <tr>
-          <td>Jane Smith</td>
-          <td>janesmith@example.com</td>
-          <td><span class="badge badge-danger">Blocked</span></td>
-          <td>
-            <div class="btn-group">
-              <button type="button" class="btn btn-danger">Block</button>
-              <button type="button" class="btn btn-success">Unblock</button>
-              <button type="button" class="btn btn-outline-danger">Delete</button>
-            </div>
-          </td>
-        </tr> -->
-      </tbody>
-    </table>
-  </div>
-</body>
-</html>
+header {
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+h1 {
+  margin: 0;
+}
+
+.logout-btn {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.main {
+  margin: 20px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.active {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.inactive {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.block-btn, .unblock-btn, .delete-btn, .add-user-btn {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.block-btn:hover, .unblock-btn:hover, .delete-btn:hover, .add-user-btn:hover {
+  background-color: #555;
+}
+
+.add-user-container {
+  margin-top: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input[type=text], form input[type=email], form input[type=password] {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+form button[type=submit] {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+form button[type=submit]:hover {
+  background-color: #555;
+}
+</style>
+<body>
+    <body>
+        <header>
+          <h1>Admin Panel</h1>
+          <button href="admin/logout" class="logout-btn">Logout</button>
+        </header>
+        <main>
+          <h2>Active User List</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>001</td>
+                <td>John Doe</td>
+                <td>john.doe@example.com</td>
+                <td><span class="status active">Active</span></td>
+                <td>
+                  <button class="block-btn">Block</button>
+                  <button class="delete-btn">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>002</td>
+                <td>Jane Smith</td>
+                <td>jane.smith@example.com</td>
+                <td><span class="status inactive">Inactive</span></td>
+                <td>
+                  <button class="unblock-btn">Unblock</button>
+                  <button class="delete-btn">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>003</td>
+                <td>Bob Johnson</td>
+                <td>bob.johnson@example.com</td>
+                <td><span class="status active">Active</span></td>
+                <td>
+                  <button class="block-btn">Block</button>
+                  <button class="delete-btn">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="add-user-container">
+            <h2>Add User</h2>
+            <form>
+              <label for="name">Name:</label>
+              <input type="text" id="name" name="name">
+              <label for="email">Email:</label>
+              <input type="email" id="email" name="email">
+              <label for="password">Password:</label>
+              <input type="password" id="password" name="password">
+              <button type="submit" class="add-user-btn">Add User</button>
+            </form>
+          </div>
+        </main>
+      </body>
+    </html>

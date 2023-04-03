@@ -5,8 +5,10 @@ import (
 	"os"
 
 	"github.com/Noush-012/web_jwt/models"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 var (
@@ -33,4 +35,20 @@ func MigrateToDB() {
 		return
 	}
 	fmt.Println("Successfully synced to database")
+}
+
+func CreateAdmin() {
+	ADMINID := os.Getenv("ADMINID")
+	ADMINPASS := os.Getenv("ADMINPASS")
+
+	//hash the password and if no error create admin
+	if hashPass, err := bcrypt.GenerateFromPassword([]byte(ADMINPASS), 10); err == nil {
+
+		DB.Clauses(clause.OnConflict{DoNothing: true}).Create(&models.Admin{
+			Email:    ADMINID,
+			Password: string(hashPass),
+		})
+
+		fmt.Println("Admin created successful")
+	}
 }

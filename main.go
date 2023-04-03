@@ -14,6 +14,7 @@ func init() {
 	initializers.LoadENV()
 	initializers.ConnToDB()
 	initializers.MigrateToDB()
+	initializers.CreateAdmin()
 }
 
 func main() {
@@ -24,8 +25,8 @@ func main() {
 	r.LoadHTMLGlob("templates/*.html")
 
 	// Calling routes for User & Admin using routes package
-	// routes.Admin(r)
 	routes.UserRoutes(r)
+	routes.AdminRoutes(r)
 
 	//if invalid url found then show user login page
 	r.NoRoute(func(ctx *gin.Context) {

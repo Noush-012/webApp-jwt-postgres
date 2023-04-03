@@ -13,7 +13,7 @@ func UserRoutes(r *gin.Engine) {
 	r.POST("/signup", controllers.SignupSubmition)
 
 	// User login & submit routes
-	r.GET("/", middleware.UserAuthentiaction, controllers.LoginPage)
+	r.GET("/", controllers.LoginPage)
 	r.POST("/", controllers.UserLoginSubmission)
 
 	// User home and logout routes
