@@ -93,6 +93,14 @@ func ValidateUserLogin(form struct {
 			"Color": "text-danger",
 		}, false
 	}
+	// Check user blocked by admin
+	if !user.Status {
+		return map[string]string{
+			"Color": "text-danger",
+			"Alert": "You are blocked by admin",
+		}, false
+	}
+
 	return user.ID, true
 
 }
@@ -114,7 +122,7 @@ func AdminValidation(form struct {
 		fmt.Println("have validations errors")
 		templateMessage := err
 		fmt.Println(templateMessage)
-		return "Credentials invalid", false
+		return "Credentials invalid!", false
 
 	}
 	// Check user exists in database
@@ -122,7 +130,7 @@ func AdminValidation(form struct {
 	initializers.DB.Find(&admin, "email = ?", form.Email)
 
 	if admin.ID == 0 || !admin.CheckPassword(form.Password) { // if user not found
-		fmt.Println("invalid credentials")
+		fmt.Println("invalid credentials!")
 		return "Invalid admin credentials", false
 	}
 

@@ -5,17 +5,26 @@ import (
 	"net/http"
 
 	"github.com/Noush-012/web_jwt/helpers"
+	"github.com/Noush-012/web_jwt/initializers"
+	"github.com/Noush-012/web_jwt/models"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm/clause"
 )
 
 // ================================== ADMIN LOGIN SECTION ================================== //
+
+var AdminTempMessage interface{}
 
 // To render admin login page
 func AdminLogin(c *gin.Context) {
 	fmt.Println("login admin")
 	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
-
-	c.HTML(http.StatusOK, "adminLogin.html", "")
+	data := gin.H{
+		"Color": "text-danger",
+		"Alert": AdminTempMessage,
+	}
+	c.HTML(http.StatusOK, "adminLogin.html", data)
+	AdminTempMessage = nil
 }
 
 // Post admin login
@@ -32,6 +41,7 @@ func AdminLoginSubmit(c *gin.Context) {
 	})
 
 	if !ok {
+		AdminTempMessage = userVal
 		c.Redirect(http.StatusSeeOther, "/admin")
 		return
 	}
@@ -51,7 +61,33 @@ func AdminHome(c *gin.Context) {
 	fmt.Println("Admin Home Page")
 
 	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
-	c.HTML(http.StatusOK, "adminHome.html", nil)
+
+	// Record array to hold all user value from DB
+	var record []models.User
+	initializers.DB.Find(&record)
+	// To store user details and link to template
+	type field struct {
+		ID        int
+		UserId    uint
+		FirstName string
+		LastName  string
+		Email     string
+		Status    bool
+	}
+
+	//slice to store all user
+	var arrayOfField []field
+	for i, v := range record {
+		arrayOfField = append(arrayOfField, field{
+			ID:        i + 1,
+			UserId:    v.ID,
+			FirstName: v.FirstName,
+			LastName:  v.LastName,
+			Email:     v.Email,
+			Status:    v.Status,
+		})
+	}
+	c.HTML(http.StatusOK, "adminHome.html", arrayOfField)
 }
 
 // To logout admin
@@ -69,4 +105,30 @@ func LogoutAdmin(c *gin.Context) {
 
 	//atlast redirect to login page
 	c.Redirect(http.StatusSeeOther, "/admin")
+}
+
+// ================================== ADMIN PRIVILEGE SECTION ================================== //
+
+// Block user
+func BlockUser(c *gin.Context) {
+	fmt.Println("Admin tries to block")
+
+	userId := c.Params.ByName("id")
+
+	if c.Params.ByName("status") == "block" {
+		initializers.DB.Model(&models.User{}).Where("id = ?", userId).Update("status", false)
+	} else {
+		initializers.DB.Model(&models.User{}).Where("id = ?", userId).Update("status", true)
+	}
+	c.Redirect(http.StatusSeeOther, "/admin/home")
+}
+
+// To delete
+func DeleteUser(c *gin.Context) {
+
+	userId := c.Param("id")
+
+	initializers.DB.Clauses(clause.OnConflict{DoNothing: true}).Delete(&models.User{}, "id = ?", userId)
+
+	c.Redirect(http.StatusSeeOther, "/admin/home")
 }

@@ -14,5 +14,11 @@ func AdminRoutes(r *gin.Engine) {
 
 	// Admin home & logout routes
 	r.GET("/admin/home", middleware.AdminAuthentication, controllers.AdminHome)
-	r.GET("/adminlogout", controllers.LogoutAdmin)
+	r.GET("/admin/logout", controllers.LogoutAdmin)
+
+	// Admin privilege routes
+	// Block
+	r.GET("/admin/blockuser/:status/:id", controllers.BlockUser)
+	// Delete
+	r.GET("/admin/deleteuser/:id", controllers.DeleteUser)
 }

@@ -125,51 +125,44 @@ form button[type=submit]:hover {
     <body>
         <header>
           <h1>Admin Panel</h1>
-          <button href="admin/logout" class="logout-btn">Logout</button>
+          <a href="/admin/logout" ><button class="logout-btn">Logout</button></a>
         </header>
         <main>
           <h2>Active User List</h2>
           <table>
             <thead>
               <tr>
+                <th>ID</th>
                 <th>User ID</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Status</th>
                 <th>Action</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
+              {{range .}}
               <tr>
-                <td>001</td>
-                <td>John Doe</td>
-                <td>john.doe@example.com</td>
+                <td>{{.ID}}</td>
+                <td>{{.UserId}}</td>
+                <td>{{.FirstName}}</td>
+                <td>{{.Email}}</td>
+
+                {{if .Status}}
                 <td><span class="status active">Active</span></td>
-                <td>
-                  <button class="block-btn">Block</button>
-                  <button class="delete-btn">Delete</button>
-                </td>
+                {{else}}
+                 <td><span class="status inactive">Inactive</span></td>
+                 {{end}}
+                
+                  {{if .Status}}
+                  <td> <a href="/admin/blockuser/block/{{.UserId}}"><button class="btn btn-danger">BLOCK</button></a></td>
+                  {{else}}
+                  <td><a href="/admin/blockuser/unblock/{{.UserId}}"><button class="btn btn-success">UNBLOCK</button></a></td>
+                  {{end}}
+                  <td><a href="/admin/deleteuser/{{.UserId}}"> <button class="btn" style="background-color: red;">Delete</button></a></td>
               </tr>
-              <tr>
-                <td>002</td>
-                <td>Jane Smith</td>
-                <td>jane.smith@example.com</td>
-                <td><span class="status inactive">Inactive</span></td>
-                <td>
-                  <button class="unblock-btn">Unblock</button>
-                  <button class="delete-btn">Delete</button>
-                </td>
-              </tr>
-              <tr>
-                <td>003</td>
-                <td>Bob Johnson</td>
-                <td>bob.johnson@example.com</td>
-                <td><span class="status active">Active</span></td>
-                <td>
-                  <button class="block-btn">Block</button>
-                  <button class="delete-btn">Delete</button>
-                </td>
-              </tr>
+              {{end}}
             </tbody>
           </table>
           <div class="add-user-container">
