@@ -116,6 +116,10 @@ form button[type=submit] {
   font-size: 1em;
   cursor: pointer;
 }
+.addUser{
+  position: relative;
+  left: 50%;
+}
 
 form button[type=submit]:hover {
   background-color: #555;
@@ -165,18 +169,7 @@ form button[type=submit]:hover {
               {{end}}
             </tbody>
           </table>
-          <div class="add-user-container">
-            <h2>Add User</h2>
-            <form>
-              <label for="name">Name:</label>
-              <input type="text" id="name" name="name">
-              <label for="email">Email:</label>
-              <input type="email" id="email" name="email">
-              <label for="password">Password:</label>
-              <input type="password" id="password" name="password">
-              <button type="submit" class="add-user-btn">Add User</button>
-            </form>
-          </div>
+          <a class="addUser" href="/admin/adduser"><button>Add User</button></a>
         </main>
       </body>
     </html>

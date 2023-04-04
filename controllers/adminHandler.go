@@ -14,6 +14,7 @@ import (
 // ================================== ADMIN LOGIN SECTION ================================== //
 
 var AdminTempMessage interface{}
+var AdminUserAddMessage interface{}
 
 // To render admin login page
 func AdminLogin(c *gin.Context) {
@@ -77,6 +78,7 @@ func AdminHome(c *gin.Context) {
 
 	//slice to store all user
 	var arrayOfField []field
+
 	for i, v := range record {
 		arrayOfField = append(arrayOfField, field{
 			ID:        i + 1,
@@ -86,7 +88,9 @@ func AdminHome(c *gin.Context) {
 			Email:     v.Email,
 			Status:    v.Status,
 		})
+
 	}
+
 	c.HTML(http.StatusOK, "adminHome.html", arrayOfField)
 }
 
@@ -131,4 +135,44 @@ func DeleteUser(c *gin.Context) {
 	initializers.DB.Clauses(clause.OnConflict{DoNothing: true}).Delete(&models.User{}, "id = ?", userId)
 
 	c.Redirect(http.StatusSeeOther, "/admin/home")
+}
+
+// To render add user page
+func AdminAddUser(c *gin.Context) {
+	fmt.Println("admin add user")
+	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
+
+	c.HTML(http.StatusOK, "addUser.html", AdminUserAddMessage)
+	AdminUserAddMessage = nil
+}
+
+// Add user by admin
+func PostAddUserAdmin(c *gin.Context) {
+
+	// Validate user data from signup form
+	message, ok := helpers.ValidateSignup(struct {
+		FirstName string `validate:"required"`
+		LastName  string `validate:"required"`
+		Email     string `validate:"required,email"`
+		Password  string `validate:"required"`
+	}{
+		FirstName: c.Request.PostFormValue("fname"),
+		LastName:  c.Request.PostFormValue("lname"),
+		Email:     c.Request.PostFormValue("email"),
+		Password:  c.Request.PostFormValue("password"),
+	})
+	// Show validation errors on admin home page
+	if !ok {
+		fmt.Println("Form validation not ok!")
+		// Pass mesage to add user  page
+		AdminUserAddMessage = message
+		AdminAddUser(c)
+		return
+
+	}
+	// If validation success and also not an existing user then render the same page with success message
+	AdminUserAddMessage = map[string]string{"Color": "text-success",
+		"Alert": "User creation successful!",
+	}
+	c.Redirect(http.StatusSeeOther, "/admin/adduser")
 }

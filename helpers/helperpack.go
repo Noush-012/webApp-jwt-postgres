@@ -43,7 +43,9 @@ func ValidateSignup(form struct {
 
 	if user.ID != 0 { // User already exists
 		fmt.Println("User already exist")
-		return map[string]string{"Alert": "User already exist"}, false
+		return map[string]string{
+			"Color": "text-danger",
+			"Alert": "User already exist"}, false
 
 	}
 	// Hash user password

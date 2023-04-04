@@ -21,4 +21,7 @@ func AdminRoutes(r *gin.Engine) {
 	r.GET("/admin/blockuser/:status/:id", controllers.BlockUser)
 	// Delete
 	r.GET("/admin/deleteuser/:id", controllers.DeleteUser)
+	// Add user
+	r.GET("/admin/adduser", middleware.AdminAuthentication, controllers.AdminAddUser)
+	r.POST("/admin/adduser", middleware.AdminAuthentication, controllers.PostAddUserAdmin)
 }

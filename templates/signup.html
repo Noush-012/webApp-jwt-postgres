@@ -12,6 +12,9 @@
 <body>
     <div class="container">
         <h2>Sign Up</h2>
+        {{if .Alert}}
+              <h4 class={{.Color}}>{{.Alert}}</h4>
+              {{end}}
         <form action="/signup" method="post">
           <div class="form-group">{{if .FirstName}} <!--to show if first name error-->
             <p style="color: rgb(154, 0, 0); font-size: medium;">{{.FirstName}}</p>
@@ -46,7 +49,6 @@
           <button type="submit" class="btn btn-primary">Sign Up</button>
           <p>Already have an account? <a href="/">Login here</a>.</p>
         </form>
-      </div>
-      
+      </div> 
 </body>
 </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Add User</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>Add User</h1>
+      {{if .Alert}}
+      <h4 class={{.Color}}>{{.Alert}}</h4>
+      {{end}}
+      <form action="/admin/adduser" method="POST" novalidate>
+        <div class="form-group">{{if .FirstName}} 
+          <p style="color: rgb(154, 0, 0); font-size: medium;">{{.FirstName}}</p>
+          {{else}}
+          <label for="firstname">First Name:</label>
+          {{end}}
+          <input
+            type="text"
+            class="form-control"
+            id="firstname"
+            name="fname"
+            required
+          />
+        </div>
+        <div class="form-group">
+          {{if .LastName}}
+          <p style="color: rgb(154, 0, 0); font-size: medium;">{{.LastName}} </p>
+          {{else}}
+          <label for="lastname">Last Name:</label>
+          {{end}}
+          <input
+            type="text"
+            class="form-control"
+            id="lastname"
+            name="lname"
+            required
+          />
+        </div>
+        <div class="form-group">
+          {{if .Email}}
+          <p style="color: rgb(154, 0, 0);">{{.Email}}</p>
+          {{else}}
+          <label for="email">Email:</label>
+          {{end}}
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="form-group">{{if .Password}}
+          <p style="color: rgb(154, 0, 0);">{{.Password}}</p>
+          {{else}}
+          <label for="password">Password:</label>
+          {{end}}
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      <a href="/admin/home" class="btn btn-secondary mt-3">Go to Admin Panel</a>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
